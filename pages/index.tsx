@@ -34,7 +34,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <Head>
-        <title>Dean$apos;s List</title>
+        <title>Dean{"'"}s List</title>
         <meta
           name="description"
           content="Vote on projects for Dean's list feedback"
