@@ -95,18 +95,6 @@ export const Header: React.FC = () => {
             </HStack>
           </Container>
         </Center>
-
-        {isOpen ? (
-          <Box pb={4} display={{ md: "none" }}>
-            <VStack as={"nav"} spacing={4}>
-              {Links.map((link) => (
-                <NavLink key={link.link} href={link.href}>
-                  {link.link}
-                </NavLink>
-              ))}
-            </VStack>
-          </Box>
-        ) : null}
       </Box>
     </>
   );
