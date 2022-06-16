@@ -1,9 +1,9 @@
-import { CSSReset } from "@chakra-ui/css-reset";
-import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
-import { AccountProvider, ErrorHandlerProvider, Notification, StrataSdksProvider, ThemeProvider } from "@strata-foundation/react";
+import { Notification } from "@strata-foundation/react";
 import React from "react";
 import toast from "react-hot-toast";
 import { Wallet } from "./Wallet";
+import { MarketplaceProviders } from "@strata-foundation/marketplace-ui";
+import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 export const Providers: React.FC = ({ children }) => {
   const onError = React.useCallback(
@@ -40,19 +40,10 @@ export const Providers: React.FC = ({ children }) => {
   );
 
   return (
-    <ThemeProvider>
-      <CSSReset />
-      <ErrorHandlerProvider onError={onError}>
-        <Wallet>
-          <WalletModalProvider>
-            <StrataSdksProvider>
-              <AccountProvider commitment="confirmed">
-                {children}
-              </AccountProvider>
-            </StrataSdksProvider>
-          </WalletModalProvider>
-        </Wallet>
-      </ErrorHandlerProvider>
-    </ThemeProvider>
+    <Wallet>
+      <MarketplaceProviders onError={onError} resetCSS>
+        <WalletModalProvider>{children}</WalletModalProvider>
+      </MarketplaceProviders>
+    </Wallet>
   );
 }

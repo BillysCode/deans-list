@@ -1,51 +1,113 @@
-import React from "react";
-import { Box, Center, Flex, HStack, Icon, Text, Link, LinkProps } from "@chakra-ui/react";
-import { WalletDisconnectButton, WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import React, { ReactNode } from "react";
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  DarkMode,
+  Flex,
+  HStack,
+  IconButton,
+  Image,
+  Link,
+  LinkProps,
+  Text,
+  useDisclosure,
+  VStack,
+} from "@chakra-ui/react";
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { useWallet } from "@solana/wallet-adapter-react";
+import {
+  TwitterLink,
+  WalletModalButton,
+} from "@strata-foundation/marketplace-ui";
 
-interface IMenuItemProps extends LinkProps {
-  isLast?: boolean;
-}
-
-const MenuItem: React.FC<IMenuItemProps> = ({
-  children,
-  isLast = false,
-  href = "/",
-  ...rest
-}) => (
-  <Text
-    mb={{ base: isLast ? 0 : 8, sm: 0 }}
-    mr={{ base: 0, sm: isLast ? 0 : 8 }}
-    display="block"
-  >
-    <Link href={href} {...rest}>
-      {children}
-    </Link>
-  </Text>
+const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
+  <Link px={2} py={1} href={href} fontSize="sm">
+    {children}
+  </Link>
 );
 
-export const Header: React.FC = () => (
-  <Center
-    w="full"
-    paddingX={14}
-    paddingY={2}
-    justifyContent="space-between"
-    alignItems="center"
-    color="white"
-    bg="grey"
-  >
-    <HStack spacing={4}>
-      <Text fontSize="xl">Test</Text>
-    </HStack>
-    <Box display={{ md: "block" }} flexBasis={{ base: "100%", md: "auto" }}>
-      <HStack
-        align="center"
-        justify={["center", "space-between", "flex-end", "flex-end"]}
-        direction={["column", "row", "row", "row"]}
-        pt={[4, 4, 0, 0]}
-      >
-        <WalletMultiButton />
-        <WalletDisconnectButton />
-      </HStack>
-    </Box>
-  </Center>
-);
+export const Header: React.FC = () => {
+  const { disconnect, connected } = useWallet();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  return (
+    <>
+      <Box zIndex={100} color="white" bg="black.300" w="full">
+        <Center w="full" height="56px" alignItems="center">
+          <Container
+            maxW="container.lg"
+            w="full"
+            display="flex"
+            justifyContent="space-between"
+          >
+            <IconButton
+              size={"md"}
+              bg="black.300"
+              icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+              aria-label={"Open Menu"}
+              display={{ md: "none" }}
+              _active={{
+                bg: "black.300",
+              }}
+              _hover={{
+                bg: "black.300",
+              }}
+              onClick={isOpen ? onClose : onOpen}
+            />
+            <HStack spacing={8} alignItems={"center"}>
+              <Link href="/">
+                <Image alt="Dean's List" src="/logo.svg" />
+              </Link>
+            </HStack>
+            <HStack
+              align="center"
+              justify={["center", "space-between", "flex-end", "flex-end"]}
+              direction={["column", "row", "row", "row"]}
+              pt="0"
+            >
+              <Flex
+                justify="center"
+                align="center"
+                display={{ base: "none", md: "flex" }}
+              >
+                <TwitterLink />
+                {connected && (
+                  <Button
+                    size="sm"
+                    _hover={{ backgroundColor: "black.500" }}
+                    variant="ghost"
+                    onClick={() => disconnect()}
+                  >
+                    Disconnect
+                  </Button>
+                )}
+                <DarkMode>
+                  <WalletModalButton />
+                </DarkMode>
+              </Flex>
+              <Flex justify="center" display={{ base: "flex", md: "none" }}>
+                <DarkMode>
+                  <WalletModalButton size="sm" />
+                </DarkMode>
+              </Flex>
+            </HStack>
+          </Container>
+        </Center>
+
+        {isOpen ? (
+          <Box pb={4} display={{ md: "none" }}>
+            <VStack as={"nav"} spacing={4}>
+              {Links.map((link) => (
+                <NavLink key={link.link} href={link.href}>
+                  {link.link}
+                </NavLink>
+              ))}
+            </VStack>
+          </Box>
+        ) : null}
+      </Box>
+    </>
+  );
+};

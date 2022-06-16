@@ -10,6 +10,7 @@ import {
   SolletExtensionWalletAdapter,
   SolletWalletAdapter,
   TorusWalletAdapter,
+  GlowWalletAdapter,
 } from "@solana/wallet-adapter-wallets";
 import { clusterApiUrl } from "@solana/web3.js";
 import React, { FC, useMemo } from "react";
@@ -29,6 +30,7 @@ export const Wallet: FC = ({ children }) => {
       new PhantomWalletAdapter(),
       new SlopeWalletAdapter(),
       new SolflareWalletAdapter(),
+      new GlowWalletAdapter(),
       new TorusWalletAdapter(),
       new LedgerWalletAdapter(),
       new SolletWalletAdapter({}),
