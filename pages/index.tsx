@@ -48,11 +48,11 @@ const Home: NextPage = () => {
             <VStack spacing={4} w="full" align="left">
               <Heading>Dean&apos;s List</Heading>
               <Text>
-                Use $DEAN to vote on projects to get feedback from the Dean's List DAO. You can purchase
+                Use $DEAN to vote on projects to get feedback from the Deans List DAO. You can purchase
                 some $DEAN below. At the end of the cycle, the project with the
                 most $DEAN will be reviewed if it is at least 50 $DEAN. 
-                All other projects will be reviewed by the DAO's discretion. 
-                Reviews will happen in the Dean's List Discord here https://discord.gg/ucNrp7bSwM .
+                All other projects will be reviewed by the DAOs discretion. 
+                Reviews will happen in the Deans List Discord here https://discord.gg/ucNrp7bSwM .
               </Text>
               <Center>
                 <Box
